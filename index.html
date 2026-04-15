@@ -1,0 +1,1369 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Die Erschöpfungsgesellschaft – Mehr als Maßnahmen</title>
+  <meta name="description" content="Warum die SPD ein Projekt braucht – und warum Arbeitszeitverkürzung das sein sollte. Ein Diskussionspapier von Leonard Wolf.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --red:        #9B1C2E;
+      --red-dark:   #6B1020;
+      --ink:        #111010;
+      --ink-mid:    #3D3430;
+      --ink-muted:  #7A6E69;
+      --paper:      #F9F7F4;
+      --paper-warm: #F0E9DF;
+      --rule:       #D5CBC2;
+
+      --font-impact: 'Anton', 'Impact', sans-serif;
+      --font-serif:  'Playfair Display', Georgia, serif;
+      --font-sans:   'DM Sans', system-ui, sans-serif;
+
+      --nav-h:    54px;
+      --max-w:    860px;
+      --prose-w:  640px;
+      --ease:     cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-sans);
+      font-size: clamp(1rem, 1.8vw, 1.0625rem);
+      font-weight: 300;
+      line-height: 1.78;
+      color: var(--ink);
+      background: var(--paper);
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23g)' opacity='0.03'/%3E%3C/svg%3E");
+    }
+
+    /* ================================================
+       NAV
+    ================================================ */
+    #site-nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: var(--nav-h);
+      z-index: 200;
+      background: rgba(249,247,244,0.97);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--rule);
+      display: flex;
+      align-items: stretch;
+      transform: translateY(-100%);
+      transition: transform 0.45s var(--ease);
+    }
+    #site-nav.visible { transform: translateY(0); }
+
+    .nav-inner {
+      width: 100%;
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-brand {
+      font-family: var(--font-serif);
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--red);
+      text-decoration: none;
+      line-height: 1.2;
+    }
+    .nav-chapters {
+      display: flex;
+      list-style: none;
+      height: 100%;
+    }
+    .nav-chapters a {
+      display: flex;
+      align-items: center;
+      padding: 0 0.6rem;
+      font-size: 0.67rem;
+      font-weight: 500;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+      text-decoration: none;
+      border-bottom: 2px solid transparent;
+      transition: color 0.2s, border-color 0.2s;
+      white-space: nowrap;
+    }
+    .nav-chapters a:hover { color: var(--ink); }
+    .nav-chapters a.active { color: var(--red); border-bottom-color: var(--red); }
+
+    .nav-burger {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: none;
+      border: 1px solid var(--rule);
+      padding: 0.3rem 0.75rem;
+      cursor: pointer;
+      font-family: var(--font-sans);
+      font-size: 0.67rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-mid);
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
+      flex-shrink: 0;
+    }
+    .nav-burger:hover { background: var(--ink); color: white; border-color: var(--ink); }
+
+    /* ================================================
+       CHAPTER OVERLAY
+    ================================================ */
+    #chapter-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 300;
+      pointer-events: none;
+      display: grid;
+      grid-template-columns: 1fr 360px;
+    }
+    @media (max-width: 520px) {
+      #chapter-overlay { grid-template-columns: 40px 1fr; }
+    }
+    .overlay-backdrop {
+      background: rgba(17,16,16,0);
+      cursor: pointer;
+      transition: background 0.35s var(--ease);
+    }
+    .overlay-drawer {
+      background: var(--ink);
+      transform: translateX(100%);
+      transition: transform 0.4s var(--ease);
+      display: flex;
+      flex-direction: column;
+      padding: 2rem;
+      overflow-y: auto;
+    }
+    #chapter-overlay.open { pointer-events: all; }
+    #chapter-overlay.open .overlay-backdrop { background: rgba(17,16,16,0.55); }
+    #chapter-overlay.open .overlay-drawer { transform: translateX(0); }
+
+    .overlay-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+    .overlay-title {
+      font-size: 0.62rem;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.3);
+    }
+    .overlay-close {
+      background: none;
+      border: none;
+      color: rgba(255,255,255,0.35);
+      cursor: pointer;
+      padding: 0.25rem;
+      transition: color 0.2s;
+      line-height: 1;
+    }
+    .overlay-close:hover { color: white; }
+
+    .overlay-nav { list-style: none; }
+    .overlay-nav li { border-top: 1px solid rgba(255,255,255,0.07); }
+    .overlay-nav li:last-child { border-bottom: 1px solid rgba(255,255,255,0.07); }
+    .overlay-nav a {
+      display: flex;
+      align-items: baseline;
+      gap: 1rem;
+      padding: 0.9rem 0;
+      text-decoration: none;
+      color: white;
+      transition: color 0.2s;
+    }
+    .overlay-nav a:hover { color: var(--red); }
+    .overlay-nav a:hover .ch-num { color: var(--red); }
+    .ch-num {
+      font-family: var(--font-impact);
+      font-size: 1.3rem;
+      line-height: 1;
+      color: rgba(255,255,255,0.15);
+      min-width: 2.2rem;
+      transition: color 0.2s;
+    }
+    .ch-label {
+      font-family: var(--font-serif);
+      font-size: 0.95rem;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+
+    /* ================================================
+       HERO — hell, editorial, Zeitungs-Charakter
+       Kein schwarzer Hintergrund mehr.
+       Masthead-Leiste oben in Rot, dann Paper.
+    ================================================ */
+    #hero {
+      background: var(--paper);
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Roter Masthead-Streifen ganz oben */
+    .hero-masthead {
+      background: var(--red);
+      padding: 0.6rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .hero-masthead-left {
+      font-size: 0.62rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.7);
+    }
+    .hero-masthead-right {
+      font-size: 0.62rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+    }
+
+    /* Horizontale Trennlinie */
+    .hero-rule {
+      height: 3px;
+      background: var(--ink);
+    }
+
+    /* Großer Titelbereich */
+    .hero-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 3rem 1.5rem 3rem;
+      max-width: var(--max-w);
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.67rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+      margin-bottom: 1.5rem;
+    }
+
+    /* "Die Erschöpfungsgesellschaft" — das ist jetzt die Identität der Seite */
+    .hero-title-main {
+      font-family: var(--font-serif);
+      font-size: clamp(2.5rem, 7.5vw, 6rem);
+      font-weight: 900;
+      line-height: 0.95;
+      color: var(--ink);
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.02em;
+    }
+    .hero-title-main em {
+      font-style: italic;
+      color: var(--red);
+    }
+
+    .hero-title-sub {
+      font-family: var(--font-serif);
+      font-size: clamp(1rem, 2.5vw, 1.5rem);
+      font-weight: 400;
+      font-style: italic;
+      color: var(--ink-mid);
+      margin-bottom: 2.5rem;
+      line-height: 1.3;
+    }
+
+    /* Horizontaler Teiler */
+    .hero-divider {
+      height: 1px;
+      background: var(--rule);
+      margin-bottom: 2rem;
+    }
+
+    /* Die zwei Spalten unten: Intro-Text + große Zahl */
+    .hero-bottom {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 2rem;
+      align-items: end;
+    }
+    @media (max-width: 600px) {
+      .hero-bottom { grid-template-columns: 1fr; }
+      .hero-stat-block { border-left: none; border-top: 2px solid var(--red); padding: 1.25rem 0 0; }
+    }
+
+    .hero-intro {
+      font-family: var(--font-sans);
+      font-size: clamp(0.9rem, 1.6vw, 1.05rem);
+      font-weight: 300;
+      color: var(--ink-mid);
+      line-height: 1.7;
+      max-width: 50ch;
+    }
+
+    .hero-stat-block {
+      flex-shrink: 0;
+      margin-top: 0.5rem;
+    }
+    .hero-stat-chip {
+      display: inline-block;
+      background: var(--red);
+      color: white;
+      font-size: 0.55rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .hero-stat-number {
+      font-family: var(--font-impact);
+      font-size: clamp(3rem, 7vw, 5.5rem);
+      line-height: 0.9;
+      color: var(--ink);
+      display: block;
+    }
+    .hero-stat-label {
+      font-size: 0.72rem;
+      color: var(--ink-muted);
+      line-height: 1.4;
+      margin-top: 0.5rem;
+      max-width: 22ch;
+      margin-left: auto;
+    }
+
+    .scroll-cue {
+      margin-top: 3rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.67rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+      animation: nudge 2.5s infinite;
+    }
+    @keyframes nudge {
+      0%,100% { transform: translateY(0); }
+      55% { transform: translateY(6px); }
+    }
+
+    /* ================================================
+       INTRO-SEKTION — die Ausgangsfrage groß inszeniert
+    ================================================ */
+    #intro {
+      background: var(--paper-warm);
+      border-top: 3px solid var(--ink);
+      padding: 4rem 1.5rem 5rem;
+    }
+    .intro-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 160px 1fr;
+      gap: 0 3.5rem;
+    }
+    @media (max-width: 680px) {
+      .intro-inner { grid-template-columns: 1fr; gap: 1rem 0; }
+    }
+    .intro-label {
+      padding-top: 0.25rem;
+      font-size: 0.62rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+    }
+    .intro-text {
+      font-family: var(--font-sans);
+      font-size: clamp(1rem, 1.8vw, 1.1rem);
+      font-weight: 300;
+      line-height: 1.75;
+      color: var(--ink-mid);
+    }
+    /* Die abschließende Frage als eigener typografischer Moment */
+    .intro-question {
+      display: block;
+      margin-top: 2.5rem;
+      font-family: var(--font-serif);
+      font-style: normal;
+      font-weight: 900;
+      font-size: clamp(1.4rem, 3.5vw, 2.25rem);
+      line-height: 1.15;
+      color: var(--ink);
+      max-width: 22ch;
+    }
+    .intro-question em {
+      color: var(--red);
+      font-style: italic;
+    }
+
+    /* ================================================
+       CHAPTERS
+    ================================================ */
+    .chapter {
+      padding: 5rem 1.5rem;
+      border-top: 1px solid var(--rule);
+      position: relative;
+      overflow: hidden;
+    }
+    .chapter--dark {
+      background: var(--ink);
+      border-top-color: transparent;
+    }
+    .chapter--dark .chapter-num { color: var(--red); }
+    .chapter--dark .chapter-heading { color: white; }
+    .chapter--dark .chapter-body p { color: rgba(255,255,255,0.75); }
+
+    /* Finale-Kapitel: helles Papier, aber mit starkem roten Akzent oben */
+    .chapter--finale {
+      background: var(--paper-warm);
+      border-top: 4px solid var(--red);
+    }
+    .chapter--finale .chapter-num { color: var(--red); }
+    .chapter--finale .statement-rule { background: var(--red); }
+    .chapter--finale .statement-text { color: var(--ink); }
+
+    .chapter-ghost {
+      position: absolute;
+      right: -0.05em; top: -0.1em;
+      font-family: var(--font-impact);
+      font-size: clamp(10rem, 22vw, 18rem);
+      line-height: 1;
+      pointer-events: none;
+      user-select: none;
+      z-index: 0;
+    }
+    .chapter:not(.chapter--dark) .chapter-ghost { color: rgba(155,28,46,0.04); }
+    .chapter--dark .chapter-ghost { color: rgba(255,255,255,0.025); }
+
+    .chapter-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 160px 1fr;
+      gap: 0 3.5rem;
+      align-items: start;
+      position: relative;
+      z-index: 1;
+    }
+    @media (max-width: 680px) {
+      .chapter-inner { grid-template-columns: 1fr; gap: 1.5rem 0; }
+      .chapter-sidebar { position: static !important; }
+    }
+
+    .chapter-sidebar {
+      padding-top: 0.2rem;
+      position: sticky;
+      top: calc(var(--nav-h) + 1.5rem);
+    }
+    .chapter-num {
+      font-size: 0.62rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 0.6rem;
+    }
+    .chapter-heading {
+      font-family: var(--font-serif);
+      font-size: clamp(1.05rem, 2.2vw, 1.35rem);
+      font-weight: 700;
+      line-height: 1.2;
+      color: var(--ink);
+    }
+
+    .chapter-body { max-width: var(--prose-w); }
+    .chapter-body p { margin-bottom: 1.5em; }
+    .chapter-body p:last-child { margin-bottom: 0; }
+
+    /* ================================================
+       STAT CARDS
+    ================================================ */
+    .stat-card {
+      margin: 2.5rem 0;
+      background: var(--red);
+      display: flex;
+    }
+    .stat-bar { width: 4px; background: var(--red-dark); flex-shrink: 0; }
+    .stat-content {
+      padding: 1.4rem 1.6rem;
+      display: flex;
+      align-items: baseline;
+      gap: 1.25rem;
+      flex-wrap: wrap;
+    }
+    .stat-number {
+      font-family: var(--font-impact);
+      font-size: clamp(2.25rem, 5.5vw, 3.5rem);
+      line-height: 1;
+      color: white;
+      flex-shrink: 0;
+    }
+    .stat-label {
+      font-size: 0.875rem;
+      font-weight: 300;
+      color: rgba(255,255,255,0.85);
+      line-height: 1.5;
+    }
+
+    /* ================================================
+       STATEMENT BLOCKS — frischere Version
+       Nur eine Regel oben, Label als kleiner Chip, kein Bottom-Rule.
+    ================================================ */
+    .statement { margin: 2.75rem 0; }
+    .statement-rule { height: 2px; background: var(--ink); margin-bottom: 0.9rem; }
+    .chapter--dark .statement-rule { background: rgba(255,255,255,0.2); }
+    .chapter--finale .statement-rule { background: var(--red); }
+
+    /* Fix: BILD-Mock liegt in chapter--dark – explizite Farb-Overrides */
+    .bild-mock-body p { color: var(--ink) !important; }
+    .bild-mock-kicker { color: #C00 !important; }
+    .bild-mock-caption { color: var(--ink-muted) !important; }
+
+    .statement-label {
+      display: inline-block;
+      background: var(--red);
+      color: white;
+      font-size: 0.55rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 0.18rem 0.45rem;
+      margin-bottom: 0.7rem;
+    }
+    .statement-text {
+      font-family: var(--font-serif);
+      font-size: clamp(1.15rem, 2.6vw, 1.55rem);
+      font-weight: 700;
+      line-height: 1.3;
+      color: var(--ink);
+      margin-bottom: 0 !important;
+    }
+    .chapter--dark .statement-text { color: white; }
+    /* Kein statement-rule-bottom – Whitespace übernimmt diese Arbeit */
+
+    /* ================================================
+       HISTORISCHE TIMELINE: Arbeitszeitverkürzung
+       SVG-basiert, mit Zahlen aus dem Text
+    ================================================ */
+    .azv-timeline {
+      margin: 2.5rem 0;
+      background: var(--paper-warm);
+      border: 1px solid var(--rule);
+      padding: 1.75rem;
+    }
+    .azv-timeline-label {
+      font-size: 0.62rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+      margin-bottom: 1.5rem;
+    }
+    .azv-steps {
+      display: flex;
+      align-items: stretch;
+      gap: 0;
+      position: relative;
+    }
+    .azv-step {
+      flex: 1;
+      position: relative;
+      padding: 0 0.5rem;
+    }
+    .azv-step:first-child { padding-left: 0; }
+    .azv-step:last-child { padding-right: 0; }
+
+    /* Verbindende Linie */
+    .azv-steps::before {
+      content: '';
+      position: absolute;
+      top: 28px;
+      left: 28px;
+      right: 28px;
+      height: 1px;
+      background: var(--rule);
+    }
+
+    .azv-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--rule);
+      border: 2px solid var(--paper-warm);
+      box-shadow: 0 0 0 1px var(--rule);
+      margin: 22px auto 10px;
+      position: relative;
+      z-index: 1;
+      transition: background 0.3s;
+    }
+    .azv-step.final .azv-dot {
+      background: var(--red);
+      box-shadow: 0 0 0 1px var(--red);
+      width: 16px;
+      height: 16px;
+      margin-top: 20px;
+    }
+    .azv-hours {
+      font-family: var(--font-impact);
+      font-size: 1.15rem;
+      line-height: 1;
+      color: var(--ink-mid);
+      text-align: center;
+      margin-bottom: 0.3rem;
+    }
+    .azv-step.final .azv-hours { color: var(--red); }
+    .azv-desc {
+      font-size: 0.65rem;
+      color: var(--ink-muted);
+      text-align: center;
+      line-height: 1.35;
+    }
+    .azv-caption {
+      margin-top: 1.25rem;
+      font-size: 0.72rem;
+      color: var(--ink-muted);
+      border-top: 1px solid var(--rule);
+      padding-top: 1rem;
+    }
+
+    /* ================================================
+       BILD-MOCK VISUAL (Kapitel V)
+       Typografisches Visual für "Arbeiterpartei schafft Arbeit ab."
+       Klar als Illustration/Satire markiert.
+    ================================================ */
+    .bild-mock {
+      margin: 2.5rem 0;
+      border: 1px solid var(--rule);
+      overflow: hidden;
+    }
+    .bild-mock-header {
+      background: #D40000;
+      padding: 0.4rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .bild-mock-name {
+      font-family: var(--font-impact);
+      font-size: 1.1rem;
+      color: white;
+      letter-spacing: 0.02em;
+    }
+    .bild-mock-tag {
+      font-size: 0.6rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.6);
+      margin-left: auto;
+    }
+    .bild-mock-body {
+      background: white;
+      padding: 1.25rem 1.25rem 1rem;
+    }
+    .bild-mock-kicker {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #D40000;
+      margin-bottom: 0.4rem;
+    }
+    .bild-mock-headline {
+      font-family: var(--font-impact);
+      font-size: clamp(1.4rem, 4vw, 2.2rem);
+      line-height: 1.05;
+      color: #111;
+      letter-spacing: 0.01em;
+    }
+    .bild-mock-caption {
+      margin-top: 0.75rem;
+      font-size: 0.62rem;
+      color: var(--ink-muted);
+      font-style: italic;
+    }
+
+    /* ================================================
+       SPLIT — verfeinerte Version mit Stat-Zeile
+    ================================================ */
+    .split {
+      margin: 2.5rem 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--rule);
+    }
+    @media (max-width: 580px) { .split { grid-template-columns: 1fr; } }
+    .split-col { padding: 2rem; background: var(--paper); }
+    .split-col:first-child { background: #1C1412; }
+    .split-label {
+      font-size: 0.62rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+    .split-col:first-child .split-label { color: rgba(255,255,255,0.3); }
+    .split-col:last-child .split-label { color: var(--red); }
+
+    /* Hervorgehobene Zahl oben in jeder Spalte */
+    .split-stat {
+      font-family: var(--font-impact);
+      font-size: 2.5rem;
+      line-height: 1;
+      margin-bottom: 0.25rem;
+    }
+    .split-col:first-child .split-stat { color: rgba(255,255,255,0.15); }
+    .split-col:last-child .split-stat { color: rgba(155,28,46,0.18); }
+
+    .split-heading {
+      font-family: var(--font-serif);
+      font-size: 1.05rem;
+      font-weight: 700;
+      line-height: 1.25;
+      margin-bottom: 1rem;
+      padding-bottom: 1rem;
+    }
+    .split-col:first-child .split-heading {
+      color: white;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .split-col:last-child .split-heading {
+      color: var(--ink);
+      border-bottom: 1px solid var(--rule);
+    }
+    .split-col p { font-size: 0.875rem; line-height: 1.7; margin-bottom: 0 !important; }
+    .split-col:first-child p { color: rgba(255,255,255,0.55); }
+    .split-col:last-child p { color: var(--ink-mid); }
+
+    /* ================================================
+       MAJORITY VISUAL
+    ================================================ */
+    .majority-visual {
+      margin: 2.5rem 0;
+      border: 1px solid var(--rule);
+      background: var(--paper-warm);
+      padding: 1.75rem;
+    }
+    .majority-label {
+      font-size: 0.62rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+      margin-bottom: 1.75rem;
+    }
+    .majority-row { margin-bottom: 1.5rem; }
+    .majority-row:last-of-type { margin-bottom: 0; }
+    .majority-row-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 0.45rem;
+    }
+    .majority-year { font-size: 0.875rem; color: var(--ink-mid); }
+    .majority-pct {
+      font-family: var(--font-impact);
+      font-size: 1.75rem;
+      line-height: 1;
+      color: var(--ink-muted);
+    }
+    .majority-row.hi .majority-pct { color: var(--red); }
+    .majority-track { height: 5px; background: var(--rule); position: relative; }
+    .majority-fill {
+      position: absolute;
+      left: 0; top: 0; height: 100%;
+      background: var(--ink-muted);
+      width: 0;
+      transition: width 1.4s var(--ease);
+    }
+    .majority-row.hi .majority-fill { background: var(--red); }
+    .majority-caption {
+      margin-top: 1.25rem;
+      font-size: 0.75rem;
+      color: var(--ink-muted);
+      line-height: 1.55;
+      border-top: 1px solid var(--rule);
+      padding-top: 1rem;
+    }
+
+    /* ================================================
+       FOOTNOTES & FOOTER
+    ================================================ */
+    .footnote-ref {
+      font-size: 0.7em;
+      vertical-align: super;
+      color: var(--red);
+      text-decoration: none;
+    }
+    .footnotes {
+      padding: 3rem 1.5rem;
+      border-top: 1px solid var(--rule);
+      background: var(--paper-warm);
+    }
+    .footnotes-inner { max-width: var(--max-w); margin: 0 auto; }
+    .footnotes h2 {
+      font-size: 0.62rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+      margin-bottom: 1rem;
+    }
+    .footnotes ol { padding-left: 1.25rem; }
+    .footnotes li {
+      font-size: 0.8rem;
+      color: var(--ink-muted);
+      margin-bottom: 0.5rem;
+      line-height: 1.6;
+    }
+    footer { background: var(--ink); padding: 1.5rem; }
+    .footer-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    footer p { font-size: 0.75rem; color: rgba(255,255,255,0.3); }
+
+    /* ================================================
+       FADE IN
+    ================================================ */
+    .fi {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.65s var(--ease), transform 0.65s var(--ease);
+    }
+    .fi.in { opacity: 1; transform: none; }
+
+    /* ================================================
+       DESKTOP NAV — above 960px show chapter links
+    ================================================ */
+    @media (max-width: 960px) { .nav-chapters { display: none; } }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="site-nav">
+    <div class="nav-inner">
+      <a href="#hero" class="nav-brand">Die Erschöpfungs­gesellschaft</a>
+      <ul class="nav-chapters" id="nav-chapters">
+        <li><a href="#lage" data-section="lage">Lage</a></li>
+        <li><a href="#pragmatismus" data-section="pragmatismus">Pragmatismus</a></li>
+        <li><a href="#klingbeil" data-section="klingbeil">Klingbeil</a></li>
+        <li><a href="#wollen" data-section="wollen">Was Menschen wollen</a></li>
+        <li><a href="#warum" data-section="warum">Warum AZV</a></li>
+        <li><a href="#arbeitswelten" data-section="arbeitswelten">Zwei Welten</a></li>
+        <li><a href="#mehrheiten" data-section="mehrheiten">Mehrheiten</a></li>
+        <li><a href="#jetzt" data-section="jetzt">Jetzt</a></li>
+      </ul>
+      <button class="nav-burger" id="nav-burger" aria-label="Kapitelmenü öffnen">
+        <svg width="14" height="10" viewBox="0 0 14 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+          <line x1="0" y1="1" x2="14" y2="1"/>
+          <line x1="0" y1="5" x2="14" y2="5"/>
+          <line x1="0" y1="9" x2="14" y2="9"/>
+        </svg>
+        Kapitel
+      </button>
+    </div>
+  </nav>
+
+  <!-- OVERLAY -->
+  <div id="chapter-overlay" role="dialog" aria-modal="true" aria-label="Kapitelnavigation">
+    <div class="overlay-backdrop" id="overlay-backdrop"></div>
+    <div class="overlay-drawer">
+      <div class="overlay-header">
+        <span class="overlay-title">Inhalt</span>
+        <button class="overlay-close" id="overlay-close" aria-label="Schließen">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+            <line x1="2" y1="2" x2="14" y2="14"/>
+            <line x1="14" y1="2" x2="2" y2="14"/>
+          </svg>
+        </button>
+      </div>
+      <ul class="overlay-nav">
+        <li><a href="#lage" class="ol"><span class="ch-num">I</span><span class="ch-label">Die Lage</span></a></li>
+        <li><a href="#pragmatismus" class="ol"><span class="ch-num">II</span><span class="ch-label">Der gescheiterte Pragmatismus</span></a></li>
+        <li><a href="#klingbeil" class="ol"><span class="ch-num">III</span><span class="ch-label">Der Klingbeil-Aufschlag</span></a></li>
+        <li><a href="#wollen" class="ol"><span class="ch-num">IV</span><span class="ch-label">Was die Menschen wirklich wollen</span></a></li>
+        <li><a href="#warum" class="ol"><span class="ch-num">V</span><span class="ch-label">Warum Arbeitszeitverkürzung?</span></a></li>
+        <li><a href="#arbeitswelten" class="ol"><span class="ch-num">VI</span><span class="ch-label">Zwei Arbeitswelten, eine Antwort</span></a></li>
+        <li><a href="#mehrheiten" class="ol"><span class="ch-num">VII</span><span class="ch-label">Mehrheiten lassen sich gewinnen</span></a></li>
+        <li><a href="#jetzt" class="ol"><span class="ch-num">VIII</span><span class="ch-label">Was zu tun ist</span></a></li>
+      </ul>
+    </div>
+  </div>
+
+  <main>
+
+    <!-- HERO -->
+    <section id="hero">
+      <div class="hero-masthead">
+        <span class="hero-masthead-left">Diskussionspapier · Leonard Wolf · 2026</span>
+        <span class="hero-masthead-right">Mehr als Maßnahmen</span>
+      </div>
+      <div class="hero-rule"></div>
+      <div class="hero-body">
+        <div>
+          <p class="hero-eyebrow">Zur Lage der Sozialdemokratie</p>
+          <h1 class="hero-title-main">Die <em>Erschöpfungs­gesellschaft</em></h1>
+          <p class="hero-title-sub">Mehr als Maßnahmen: Warum die SPD ein Projekt braucht – und warum Arbeitszeitverkürzung das sein sollte</p>
+          <div class="hero-divider"></div>
+          <div class="hero-stat-block">
+            <span class="hero-stat-chip">ver.di-Befragung 2024</span>
+            <span class="hero-stat-number">66,9 %</span>
+            <p class="hero-stat-label">fühlen sich regelmäßig leer und ausgebrannt</p>
+          </div>
+        </div>
+        <div class="scroll-cue">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+            <line x1="7" y1="2" x2="7" y2="12"/>
+            <polyline points="3,8 7,12 11,8"/>
+          </svg>
+          Scrollen
+        </div>
+      </div>
+    </section>
+
+    <section id="intro">
+      <div class="intro-inner">
+        <p class="intro-label fi">Ausgangsfrage</p>
+        <div class="fi">
+          <p class="intro-text">Im Frühjahr passiert jedes Jahr etwas Magisches in Deutschland: Ostern, Pfingsten und Himmelfahrt sorgen dafür, dass plötzlich die meisten Menschen in den Genuss einer Vier-Tage-Woche kommen. Die Erschöpfung sinkt mal für ein paar Wochen, alle finden es großartig. Die Kolleg*innen kommen besser gelaunt ins Büro. Die Eltern erzählen, dass sie am Freitag mit den Kindern im Park waren. Niemand beschwert sich. Niemand sagt: Das schadet der Wirtschaft. Niemand fordert Ostern abzuschaffen, damit das BIP stimmt. Alle denken sich: Wenn es nur immer so wäre. Und dann fangen die langen Wochen irgendwann wieder an und die Erschöpfung geht wieder los.</p>
+          <span class="intro-question">Die Frage, die dieses Papier stellt: Warum muss das so sein? <em>Kann das nicht ein Projekt für die SPD werden?</em></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- I. DIE LAGE -->
+    <section id="lage" class="chapter">
+      <span class="chapter-ghost" aria-hidden="true">I</span>
+      <div class="chapter-inner">
+        <div class="chapter-sidebar fi">
+          <p class="chapter-num">I</p>
+          <h2 class="chapter-heading">Die Lage</h2>
+        </div>
+        <div class="chapter-body">
+          <p class="fi">Als ver.di im Herbst 2024 über 260.000 Beschäftigte im öffentlichen Dienst befragte, was sie von der kommenden Tarifrunde erwarten, fielen die Antworten anders als geläufig aus: 66,9 Prozent gaben an, sich regelmäßig leer und ausgebrannt zu fühlen. 65,6 Prozent konnten sich in ihrer Freizeit nicht mehr erholen. 42 Prozent verzichteten regelmäßig auf Pausen, um ihr Pensum zu schaffen. Die Forderung, die daraus entstand, war nicht nur eine nach mehr Geld. Es war eine nach Zeit.<a href="#fn1" class="footnote-ref">1</a></p>
+
+          <div class="statement fi">
+            <div class="statement-rule"></div>
+            <p class="statement-label">Signatur einer Epoche</p>
+            <p class="statement-text">Das ist kein Branchenproblem. Es ist die Signatur einer Erschöpfungsgesellschaft.</p>
+          </div>
+
+          <p class="fi">4,7 Millionen Krankheitstage durch Burnout jährlich.<a href="#fn2" class="footnote-ref">2</a> Nahezu eine Verdopplung seit 2014. Der Gallup Engagement Index 2025 meldet ein Rekordtief: 9 Prozent emotionale Bindung an den Arbeitgeber. 40 Prozent aller Beschäftigten arbeiten in Engpassberufen, aus denen die Fachkräfte fliehen, weil die Bedingungen nicht stimmen.<a href="#fn3" class="footnote-ref">3</a></p>
+
+          <div class="stat-card fi">
+            <div class="stat-bar"></div>
+            <div class="stat-content">
+              <span class="stat-number">120 Mrd. €</span>
+              <span class="stat-label">volkswirtschaftlicher Schaden<br>durch Erschöpfung und innere Kündigung – jährlich<a href="#fn4" class="footnote-ref" style="color:rgba(255,255,255,0.6)">4</a></span>
+            </div>
+          </div>
+
+          <p class="fi">Allesamt Leute, die arbeiten. Vielleicht sogar die viel beschworene »arbeitende Mitte«. Und obwohl wir als Partei die ganze Zeit von diesen Leuten reden, wollen sie uns einfach irgendwie nicht wählen: minus 14 Prozentpunkte bei Arbeiterinnen und Arbeitern bei der Bundestagswahl 2025. 11 Prozent bei den unter 30-Jährigen. 71 Prozent in Rheinland-Pfalz, die sagten, die SPD stehe nicht mehr auf ihrer Seite.</p>
+
+          <div class="statement fi">
+            <div class="statement-rule"></div>
+            <p class="statement-label">Die eigentliche Katastrophe</p>
+            <p class="statement-text">Aber die Zahlen sind nicht die Katastrophe. Die Katastrophe ist, dass bei den Menschen, für die diese Partei existiert, kein Gefühl mehr da ist. Keine Wut, kein Hoffen, nicht einmal Enttäuschung. Nur Gleichgültigkeit.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- II. PRAGMATISMUS (dunkel) -->
+    <section id="pragmatismus" class="chapter chapter--dark">
+      <span class="chapter-ghost" aria-hidden="true">II</span>
+      <div class="chapter-inner">
+        <div class="chapter-sidebar fi">
+          <p class="chapter-num">II</p>
+          <h2 class="chapter-heading">Der gescheiterte Pragmatismus</h2>
+        </div>
+        <div class="chapter-body">
+          <p class="fi">Die SPD hat sich einem Weg verschrieben, der sich am besten als technokratischer Pragmatismus beschreiben lässt: Gutes Regieren wird belohnt. Seit 27 Jahren regiert sie im Bund fast ununterbrochen mit. Die Spiegelstrich-Liste der Errungenschaften ist existent, aber sie ergibt kein Ganzes. Weil »Deliverism« die Frage vernachlässigt, ob die Bürgerinnen und Bürger sich im Gelieferten wiedererkennen. Ob sie sich als Teil eines gemeinsamen Projekts verstehen.</p>
+
+          <div class="statement fi">
+            <div class="statement-rule"></div>
+            <p class="statement-label">Die Leerstelle</p>
+            <p class="statement-text">Menschen wollen nicht nur versorgt werden. Sie wollen wissen, wohin die Reise geht.</p>
+          </div>
+
+          <p class="fi">Benjamin Mikfeld stellt die Lage in einen größeren Zusammenhang: Die Krise der SPD sei Ausdruck einer umfassenden Regulationskrise, in der die Passung zwischen ökonomischem Modell, politischer Steuerung und gesellschaftlichem Konsens nicht mehr stimmt. Kleinteilige Reformen innerhalb eines dysfunktionalen Systems erzeugen keine Zustimmung, weil sie das System nicht verändern. Was es braucht, ist ein Projekt, das über das Klein-Klein hinausweist.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- III. KLINGBEIL -->
+    <section id="klingbeil" class="chapter">
+      <span class="chapter-ghost" aria-hidden="true">III</span>
+      <div class="chapter-inner">
+        <div class="chapter-sidebar fi">
+          <p class="chapter-num">III</p>
+          <h2 class="chapter-heading">Der Klingbeil-Aufschlag</h2>
+        </div>
+        <div class="chapter-body">
+          <p class="fi">Lars Klingbeils Rede bei der Bertelsmann Stiftung am 25. März wurde als Grundsatzrede zum Aufbruch gebrandmarkt. In einer Partei zwischen Schockstarre und Personaldebatten ist der Versuch einer inhaltlichen Offensive etwas. Die Diagnose, dass Deutschland ein blockiertes Land ist, stimmt. Einzelne Maßnahmen sind aus Juso-Perspektive seit Jahren überfällig. Aber die Rede bleibt auf halbem Weg stehen. Sie reiht Maßnahmen aneinander, ohne sie in eine Erzählung einzubetten, die erklärt, in welcher Gesellschaft wir leben wollen.</p>
+
+          <div class="statement fi">
+            <div class="statement-rule"></div>
+            <p class="statement-label">Die Kernbotschaft der Rede – und was sie trifft</p>
+            <p class="statement-text">Wir müssen als Gesellschaft mehr arbeiten. Diese Botschaft trifft auf die 66,9 Prozent, die sich regelmäßig leer fühlen. Auf eine Erschöpfungsgesellschaft, deren volkswirtschaftliche Kosten fast 120 Milliarden Euro jährlich erreichen.</p>
+          </div>
+
+          <p class="fi">Der Lieferando-Fahrer nach der dritten Doppelschicht. Die Lagerarbeiterin, die auf ihre Reha wartet. Der Erzieher, der sich zwischen Vollzeit und Gesundheit entscheiden muss. Für diese Menschen klingt »Mehr arbeiten« nicht nach Aufbruch. Es klingt nach einer Partei, die nicht verstanden hat, was in ihrem Alltag passiert. Das wird auch nicht besser, wenn man ihnen einredet, dass sie schon bereit wären »Opfer zu bringen«. Sind diese Menschen wirklich. Das tun sie aber bereits jeden Tag.</p>
+
+          <div class="statement fi">
+            <div class="statement-rule"></div>
+            <p class="statement-label">Die historische Tradition</p>
+            <p class="statement-text">Dabei ist die Sozialdemokratie in ihrem Kern eine Arbeitszeitverkürzungsbewegung. Oder: eine Anti-Erschöpfungs-Partei.</p>
+          </div>
+
+          <!-- Historische Timeline AZV -->
+          <div class="azv-timeline fi">
+            <p class="azv-timeline-label">Die Geschichte der Arbeitszeitverkürzung</p>
+            <div class="azv-steps">
+              <div class="azv-step">
+                <div class="azv-dot"></div>
+                <p class="azv-hours">12h</p>
+                <p class="azv-desc">12-Stunden-Tag<br>19. Jh.</p>
+              </div>
+              <div class="azv-step">
+                <div class="azv-dot"></div>
+                <p class="azv-hours">8h</p>
+                <p class="azv-desc">8-Stunden-Tag<br>1918</p>
+              </div>
+              <div class="azv-step">
+                <div class="azv-dot"></div>
+                <p class="azv-hours">48h</p>
+                <p class="azv-desc">48-Stunden-Woche<br>→ 40h 1956–67</p>
+              </div>
+              <div class="azv-step">
+                <div class="azv-dot"></div>
+                <p class="azv-hours">5 Tage</p>
+                <p class="azv-desc">Fünf-Tage-Woche<br>ab 1955</p>
+              </div>
+              <div class="azv-step final">
+                <div class="azv-dot"></div>
+                <p class="azv-hours">?</p>
+                <p class="azv-desc">Nächster Schritt<br>21. Jh.</p>
+              </div>
+            </div>
+            <p class="azv-caption">Jedes Mal hieß es, die Wirtschaft werde zusammenbrechen. Jedes Mal passierte das Gegenteil. Jedes Mal war die Verkürzung nicht nur sozialpolitische Errungenschaft, sondern Produktivitätstreiber.</p>
+          </div>
+
+          <p class="fi">Diese Tradition fortzuschreiben wäre die logische Konsequenz aus Klingbeils eigener Diagnose gewesen. Dass er sie nicht gezogen hat, ist die eigentliche Leerstelle.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- IV. WAS MENSCHEN WOLLEN -->
+    <section id="wollen" class="chapter">
+      <span class="chapter-ghost" aria-hidden="true">IV</span>
+      <div class="chapter-inner">
+        <div class="chapter-sidebar fi">
+          <p class="chapter-num">IV</p>
+          <h2 class="chapter-heading">Was die Menschen wirklich wollen</h2>
+        </div>
+        <div class="chapter-body">
+          <p class="fi">Es gibt einen Einwand: Die Leute wollen doch wirtschaftlichen Aufschwung. Sicherheit, gute Löhne. Ist Arbeitszeitverkürzung nicht ein Luxusthema?</p>
+
+          <p class="fi">Die Antwort: Die Menschen wollen nicht wirtschaftlichen Aufschwung im Sinne eines höheren BIP. Sie wollen, dass etwas bei ihnen ankommt. Und »ankommen« kann mehr Geld bedeuten. Aber es kann genauso bedeuten: weniger Erschöpfung, mehr Zeit, nicht mehr das Gefühl, am Limit zu laufen. Die ver.di-Befragung ist dafür der stärkste Beleg: 260.000 Menschen sagen nicht nur »mehr Geld«, sie sagen »ich bin leer, ich brauche Zeit«. Die Forderung nach dem »Meine-Zeit-Konto«, bei dem Beschäftigte selbst wählen, ob Gehaltserhöhungen in Geld oder Freizeit fließen, kam nicht aus einer akademischen Debatte. Sie kam aus dem Alltag von Krankenpflegern, Straßenreinigern und Erzieherinnen.</p>
+
+          <p class="fi">Die Hans-Böckler-Stiftung hat das historisch eingeordnet: Zwischen 1950 und 1980, als Produktivitätsgewinne noch fair verteilt wurden, entschieden sich die Menschen freiwillig für mehr Freizeit statt mehr Konsum.<a href="#fn5" class="footnote-ref">5</a> Seit den 1980ern stieg die Produktivität weiter, aber die Gewinne landeten beim Kapital. Mehr Aufgaben pro Stelle, dünnere Personaldecken, höhere Verdichtung. Das Ergebnis ist die Erschöpfungsgesellschaft, in der wir heute leben.</p>
+
+          <div class="statement fi">
+            <div class="statement-rule"></div>
+            <p class="statement-label">Was Wohlstand bedeutet</p>
+            <p class="statement-text">Wohlstand muss ankommen. Die direkteste Form, in der das geschieht, ist Zeit.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- V. WARUM AZV (dunkel) -->
+    <section id="warum" class="chapter chapter--dark">
+      <span class="chapter-ghost" aria-hidden="true">V</span>
+      <div class="chapter-inner">
+        <div class="chapter-sidebar fi">
+          <p class="chapter-num">V</p>
+          <h2 class="chapter-heading">Warum Arbeitszeitverkürzung?</h2>
+        </div>
+        <div class="chapter-body">
+          <p class="fi">Warum ausgerechnet dieses Thema? Weil es drei Bedingungen gleichzeitig erfüllt.</p>
+
+          <div class="statement fi">
+            <div class="statement-rule"></div>
+            <p class="statement-label">Erste Bedingung</p>
+            <p class="statement-text">Konkretion.</p>
+          </div>
+
+          <p class="fi">Die Pflegerin in der Uniklinik, die nach 38,5 Stunden im Schichtdienst keine Energie mehr hat für ihre eigenen Kinder: Sie versteht sofort, was eine Woche mit weniger Stunden bei vollem Lohn für ihr Leben bedeuten würde. Der Handwerker, der abends um sieben von der Baustelle kommt und seinen Sohn nur noch schlafend sieht: Auch er braucht keine Erklärung, um zu begreifen, was ein zusätzlicher freier Tag pro Woche wäre. Arbeitszeitverkürzung übersetzt sich unmittelbar in Lebenswirklichkeit, überall im Land, in jeder Branche, in jedem Haushalt.</p>
+
+          <div class="statement fi">
+            <div class="statement-rule"></div>
+            <p class="statement-label">Zweite Bedingung</p>
+            <p class="statement-text">Wem gehören die Gewinne der KI?</p>
+          </div>
+
+          <p class="fi">Arbeitszeitverkürzung ist nicht nur eine sozialpolitische Forderung. Sie ist eine Antwort auf die Frage, bei wem die Produktivitätsgewinne durch Künstliche Intelligenz ankommen. Damit wird sie zu mehr als einem Thema unter vielen. Sie wird zur Erzählung darüber, wie der Wohlstand des 21. Jahrhunderts verteilt wird.</p>
+
+          <div class="statement fi">
+            <div class="statement-rule"></div>
+            <p class="statement-label">Dritte Bedingung – die wichtigste</p>
+            <p class="statement-text">Nicht obwohl es schwieriger ist – sondern weil es schwieriger ist.</p>
+          </div>
+
+          <p class="fi">Die SPD hat ein tiefes Glaubwürdigkeitsproblem. Sie hat in den letzten Jahren Dinge geliefert – Mindestlohn, Kurzarbeitergeld, Kindergeld – und niemand hat es ihr zugeschrieben. Das lag nicht daran, dass die Maßnahmen schlecht waren. Es lag daran, dass es keinen sichtbaren Kampf gab. Glaubwürdigkeit entsteht nicht durch das Liefern an sich. Sie entsteht durch die Sichtbarkeit des Kampfes, der dem Liefern vorausgeht.</p>
+
+          <p class="fi">Als Willy Brandt 1969 die Ostpolitik zur Kernerzählung seiner Kanzlerschaft machte, spaltete er das Land. Die CDU/CSU geißelte die Ostverträge, Abgeordnete liefen aus der Koalition über. Brandt hat nicht gewartet, bis der Widerstand nachließ. Er hat das Projekt durchgefochten und 1972 das beste SPD-Ergebnis aller Zeiten eingefahren. Nicht weil er Verträge unterschrieb, sondern weil das Land drei Jahre zugesehen hatte, wie er für etwas kämpfte.</p>
+
+          <p class="fi">Arbeitszeitverkürzung hat diesen Konflikt eingebaut. Arbeitgeber werden dagegen sein. Die CDU wird dagegen sein.</p>
+
+          <!-- Das BILD-Visual -->
+          <div class="bild-mock fi">
+            <div class="bild-mock-header">
+              <span class="bild-mock-name">BILD</span>
+              <span class="bild-mock-tag">Illustration: erwartete Schlagzeile</span>
+            </div>
+            <div class="bild-mock-body">
+              <p class="bild-mock-kicker">Linke Arbeitspolitik</p>
+              <p class="bild-mock-headline">Arbeiterpartei schafft Arbeit ab.</p>
+              <p class="bild-mock-caption">So wird es kommen. Und das ist gut.</p>
+            </div>
+          </div>
+
+          <p class="fi">Denn ohne sichtbaren Kampf gibt es keine Glaubwürdigkeit. Was Mikfeld die Arbeit an einem neuen Paradigma nennt, beginnt mit der Bereitschaft, eine Position zu vertreten, bevor sie mehrheitsfähig ist, und sie durch den Kampf für sie mehrheitsfähig zu machen.</p>
+
+          <p class="fi">Eine Klarstellung: Dieses Papier wirbt nicht zwangsläufig für ein Gesetz, das eine Stundenzahl von oben verordnet. Sondern für eine politische Richtung, die durch gestärkte Tarifbindung und Sozialpartnerschaft Wirklichkeit wird. Die Beschäftigten erstreiten die konkreten Schritte selbst, branchenspezifisch, tarifvertraglich, in Pilotprojekten erprobt.</p>
+
+          <div class="statement fi">
+            <div class="statement-rule"></div>
+            <p class="statement-label">Die Richtung</p>
+            <p class="statement-text">Der Fortschritt gehört denen, die ihn erarbeiten. Die Erschöpfung wird neu verteilt.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VI. ZWEI ARBEITSWELTEN -->
+    <section id="arbeitswelten" class="chapter">
+      <span class="chapter-ghost" aria-hidden="true">VI</span>
+      <div class="chapter-inner">
+        <div class="chapter-sidebar fi">
+          <p class="chapter-num">VI</p>
+          <h2 class="chapter-heading">Zwei Arbeitswelten, eine Antwort</h2>
+        </div>
+        <div class="chapter-body">
+          <p class="fi">Die Arbeitswelt spaltet sich in zwei Realitäten.</p>
+
+          <div class="split fi">
+            <div class="split-col">
+              <p class="split-label">Die KI-Welt</p>
+              <p class="split-stat">KI</p>
+              <h3 class="split-heading">Produktivität explodiert –<br>Gewinne verschwinden</h3>
+              <p>In der einen schreibt eine KI in Minuten, wofür ein Mensch Stunden brauchte. Der IWF sieht, dass KI in den meisten Szenarien die Ungleichheit verschärft. Produktivitätsgewinne landen als Unternehmensgewinne – »Ghost GDP«, Wirtschaftsleistung, die in den Bilanzen steht, aber nicht durch die reale Ökonomie zirkuliert.</p>
+            </div>
+            <div class="split-col">
+              <p class="split-label">Die Care-Welt</p>
+              <p class="split-stat">300K</p>
+              <h3 class="split-heading">Erschöpfung ohne<br>algorithmischen Ausweg</h3>
+              <p>In der anderen wäscht kein Algorithmus einen Patienten und erzieht keine Software ein Kind. Jährlich wandern 24.000 Fachkräfte netto aus Engpassberufen ab.<a href="#fn6" class="footnote-ref" style="color:var(--red)">6</a> Dabei stünden 300.000 Pflegekräfte zur Verfügung, wenn die Arbeitsbedingungen stimmten – vor allem bei der Arbeitszeit.<a href="#fn7" class="footnote-ref" style="color:var(--red)">7</a></p>
+            </div>
+          </div>
+
+          <p class="fi">Zwei Arbeitswelten, aber dieselbe politische Frage. Robert Allen hat für die Dynamik, in der Produktivitätsgewinne nicht bei den Beschäftigten ankommen, den Begriff der »Engels-Pause« geprägt. Es dauerte im 19. Jahrhundert Jahrzehnte, bis organisierte Gegenmacht die Gewinne der Industrialisierung umverteilte. Von allein ging es nie.</p>
+
+          <div class="statement fi">
+            <div class="statement-rule"></div>
+            <p class="statement-label">Die verbindende Antwort</p>
+            <p class="statement-text">Arbeitszeitverkürzung verbindet beide Welten. Wo KI die Produktivität steigert, steht Beschäftigten ihr Anteil am Fortschritt zu. Wo Arbeit an und mit Menschen geleistet wird, sind kürzere Arbeitszeiten die Voraussetzung dafür, dass Menschen diese Arbeit überhaupt noch tun.</p>
+          </div>
+
+          <p class="fi">Pilotprojekte in Deutschland<a href="#fn8" class="footnote-ref">8</a>, Großbritannien<a href="#fn9" class="footnote-ref">9</a> und Island<a href="#fn10" class="footnote-ref">10</a> zeigen: Kürzere Arbeitszeiten bei vollem Lohn sind mit stabilen Umsätzen vereinbar, senken Krankenstand und steigern Lebenszufriedenheit. Was fehlt, ist die parteipolitische Kraft, die das Thema zum gesellschaftlichen Projekt macht.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- VII. MEHRHEITEN -->
+    <section id="mehrheiten" class="chapter">
+      <span class="chapter-ghost" aria-hidden="true">VII</span>
+      <div class="chapter-inner">
+        <div class="chapter-sidebar fi">
+          <p class="chapter-num">VII</p>
+          <h2 class="chapter-heading">Mehrheiten lassen sich gewinnen</h2>
+        </div>
+        <div class="chapter-body">
+          <p class="fi">Der verbleibende Einwand: Die Gesellschaft ist dafür nicht bereit. Die Antwort steht in der jüngsten Geschichte.</p>
+
+          <div class="majority-visual fi" id="majority-visual">
+            <p class="majority-label">Schuldenbremse: Meinungswandel in 13 Monaten</p>
+            <div class="majority-row">
+              <div class="majority-row-top">
+                <span class="majority-year">Dezember 2023</span>
+                <span class="majority-pct">24 %</span>
+              </div>
+              <div class="majority-track"><div class="majority-fill" data-target="24"></div></div>
+            </div>
+            <div class="majority-row hi">
+              <div class="majority-row-top">
+                <span class="majority-year">Januar 2025</span>
+                <span class="majority-pct">55 %</span>
+              </div>
+              <div class="majority-track"><div class="majority-fill" data-target="55"></div></div>
+            </div>
+            <p class="majority-caption">Anteil der Bevölkerung, der eine Reform der Schuldenbremse befürwortete. Im März 2025 folgte die Grundgesetzänderung mit Zweidrittelmehrheit.</p>
+          </div>
+
+          <p class="fi">Von 24 auf 55 Prozent in dreizehn Monaten. Das ist kein Zufall. Das ist das Ergebnis beharrlicher argumentativer Arbeit, von der Verknüpfung einer abstrakten Forderung mit konkreten Alltagserfahrungen: marode Brücken, geschlossene Schwimmbäder, kaputte Schulen.</p>
+
+          <p class="fi">Ähnliche Tendenzen sehen wir gerade bei Umverteilungsmaßnahmen, wie der Vermögenssteuer. Hier sind inzwischen selbst 55 Prozent der CDU/CSU-Wählerinnen und Wähler dafür, obwohl ihre Partei sie kategorisch ablehnt.</p>
+
+          <div class="statement fi">
+            <div class="statement-rule"></div>
+            <p class="statement-label">Das Potenzial der Erschöpfungserfahrung</p>
+            <p class="statement-text">Die Alltagserfahrung, an die Arbeitszeitverkürzung andockt, ist universeller als marode Brücken: Es ist die Erfahrung, dass die eigene Zeit nicht reicht. Für die Kinder, für die Eltern, für sich selbst. Dieses Gefühl ist in der Breite der Gesellschaft angekommen.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIII. WAS ZU TUN IST — heller Hintergrund, roter Akzent -->
+    <section id="jetzt" class="chapter chapter--finale">
+      <span class="chapter-ghost" aria-hidden="true">VIII</span>
+      <div class="chapter-inner">
+        <div class="chapter-sidebar fi">
+          <p class="chapter-num">VIII</p>
+          <h2 class="chapter-heading">Was zu tun ist</h2>
+        </div>
+        <div class="chapter-body">
+          <p class="fi">Die SPD steht vor einer Richtungsentscheidung. Option eins ist das Weiter-so: pragmatisch mitregieren, kleinteilige Reformen umsetzen, auf bessere Zeiten hoffen. Die Ergebnisse dieser Strategie liegen vor.</p>
+
+          <p class="fi">Option zwei ist der Weg, den dieses Papier vorschlägt. Arbeitszeitverkürzung bei vollem Lohnausgleich nicht als Programmpunkt, sondern als Projekt: als Erzählung einer Partei der Arbeit im 21. Jahrhundert, die eine Antwort hat auf die Frage, wem der Fortschritt gehört.</p>
+
+          <p class="fi">Dieses Projekt ist kein neues Paradigma im Sinne Mikfelds, kein fertiger Entwurf einer neuen wirtschaftlichen und gesellschaftlichen Ordnung. Es ist bescheidener und zugleich konkreter: der sichtbarste, mobilisierungsfähigste Baustein auf dem Weg zu einem solchen Paradigma. Der Baustein, an dem sich zeigt, ob die SPD es ernst meint mit der Erneuerung. Denn wenn der technische Fortschritt nicht bei den Menschen ankommt, die die Werte schaffen, dann haben alle anderen Reformversprechen ein Glaubwürdigkeitsproblem.</p>
+
+          <div class="statement fi">
+            <div class="statement-rule"></div>
+            <p class="statement-label">Drei Versprechen</p>
+            <p class="statement-text">Produktivitätsgewinne gerecht verteilen. Die Institutionen stärken, in denen Beschäftigte ihre Interessen gemeinsam vertreten. Einen Wohlstandsbegriff prägen, der sich nicht nur am BIP bemisst, sondern an der Erschöpfung der Menschen in diesem Land, und ob sie genug Zeit haben für ein gutes Leben.</p>
+          </div>
+
+          <p class="fi">Das wird Widerstand erzeugen. Von der Wirtschaft, der eigenen Koalition und auch in der Bevölkerung. Aber eine Partei, die keinen Widerstand mehr erzeugt, hat aufgehört, für etwas zu stehen. Und eine Partei, die für nichts steht, wird nicht gewählt. Die SPD hat in ihrer Geschichte mehrfach bewiesen, dass sie fähig ist, eine Idee von der Zukunft zu formulieren, die größer ist als sie selbst, und dafür Mehrheiten zu gewinnen, die vorher nicht existierten. Es wird Zeit, es wieder zu tun.</p>
+
+          <div class="statement fi">
+            <div class="statement-rule"></div>
+            <p class="statement-label">Appell</p>
+            <p class="statement-text">Lasst uns Partei und Gesellschaft von ihrer Erschöpfung befreien.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="footnotes">
+      <div class="footnotes-inner">
+        <h2>Quellen &amp; Anmerkungen</h2>
+        <ol>
+          <li id="fn1">Ver.di Arbeitszeitbefragung im öffentlichen Dienst, 2024</li>
+          <li id="fn2">Arbeitsunfähigkeitstage aufgrund von Burn-out-Erkrankungen in Deutschland in 2023 unter AOK-Versicherten, hochgerechnet auf 35 Millionen gesetzlich krankenversicherte Beschäftigte</li>
+          <li id="fn3">Bertelsmann-Stiftung, Studie zur Wechseldynamik in Engpassberufen, 2025</li>
+          <li id="fn4">Gallup Index, 2025</li>
+          <li id="fn5">Hans-Böckler-Stiftung: Mehr Freizeit wagen, Böckler Impuls 2022</li>
+          <li id="fn6">Bertelsmann-Stiftung, Studie zur Wechseldynamik in Engpassberufen, 2025</li>
+          <li id="fn7">Arbeitnehmerkammer Bremen/Hans-Böckler-Stiftung: »Ich pflege wieder, wenn...«, 2022</li>
+          <li id="fn8">Universität Münster/Intraprenör, 45 Unternehmen, 100-80-100-Modell, 2024. 70 % machten weiter.</li>
+          <li id="fn9">UK Four-Day Week Pilot, 61 Unternehmen, 2022. 92 % behielten das Modell, Fluktuation −57 %, Krankenstand −65 %.</li>
+          <li id="fn10">86 % aller isländischen Beschäftigten haben heute Anspruch auf verkürzte Arbeitszeit.</li>
+        </ol>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <p>© 2026 Leonard Wolf</p>
+      <p>Diskussionspapier &nbsp;·&nbsp; M083 Medienpraxis online</p>
+    </div>
+  </footer>
+
+  <script>
+    const nav    = document.getElementById('site-nav');
+    const hero   = document.getElementById('hero');
+    const overlay= document.getElementById('chapter-overlay');
+    const burger = document.getElementById('nav-burger');
+    const closeB = document.getElementById('overlay-close');
+    const backd  = document.getElementById('overlay-backdrop');
+    const navLinks = document.querySelectorAll('#nav-chapters a[data-section]');
+
+    // Nav erscheint nach Hero
+    new IntersectionObserver(([e]) => {
+      nav.classList.toggle('visible', !e.isIntersecting);
+    }, { threshold: 0 }).observe(hero);
+
+    // Aktiver Nav-Link
+    const secObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          navLinks.forEach(a => a.classList.remove('active'));
+          const a = document.querySelector(`#nav-chapters a[data-section="${e.target.id}"]`);
+          if (a) a.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-35% 0px -60% 0px' });
+    document.querySelectorAll('section[id]').forEach(s => secObs.observe(s));
+
+    // Overlay
+    const open  = () => { overlay.classList.add('open');    document.body.style.overflow = 'hidden'; };
+    const close = () => { overlay.classList.remove('open'); document.body.style.overflow = ''; };
+    burger.addEventListener('click', open);
+    closeB.addEventListener('click', close);
+    backd.addEventListener('click', close);
+    document.querySelectorAll('.ol').forEach(a => a.addEventListener('click', close));
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+
+    // Fade-in
+    const fiObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('in'); fiObs.unobserve(e.target); }
+      });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.fi').forEach(el => fiObs.observe(el));
+
+    // Balken-Animation
+    const mv = document.getElementById('majority-visual');
+    if (mv) {
+      new IntersectionObserver(([e]) => {
+        if (e.isIntersecting)
+          mv.querySelectorAll('.majority-fill').forEach(b => { b.style.width = b.dataset.target + '%'; });
+      }, { threshold: 0.4 }).observe(mv);
+    }
+  </script>
+</body>
+</html>
