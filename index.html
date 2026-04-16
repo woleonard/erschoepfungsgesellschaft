@@ -855,6 +855,12 @@
       margin-bottom: 0.5rem;
       line-height: 1.6;
     }
+    .footnotes a {
+      color: var(--ink-muted);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+    .footnotes a:hover { color: var(--red); }
     footer { background: var(--ink); padding: 1.5rem; }
     .footer-inner {
       max-width: var(--max-w);
@@ -864,6 +870,8 @@
       align-items: center;
     }
     footer p { font-size: 0.75rem; color: rgba(255,255,255,0.3); }
+    footer a { color: rgba(255,255,255,0.5); text-decoration: none; }
+    footer a:hover { color: var(--red); }
 
     /* ================================================
        LESE-FORTSCHRITTSBALKEN
@@ -1314,14 +1322,14 @@
       <div class="footnotes-inner">
         <h2>Quellen &amp; Anmerkungen</h2>
         <ol>
-          <li id="fn1">Ver.di Arbeitszeitbefragung im öffentlichen Dienst, 2024</li>
+          <li id="fn1"><a href="https://www.verdi.de/arbeitszeitbefragung-im-oeffentlichen-dienst" target="_blank" rel="noopener">Ver.di Arbeitszeitbefragung im öffentlichen Dienst, 2024</a></li>
           <li id="fn2">Arbeitsunfähigkeitstage aufgrund von Burn-out-Erkrankungen in Deutschland in 2023 unter AOK-Versicherten, hochgerechnet auf 35 Millionen gesetzlich krankenversicherte Beschäftigte</li>
-          <li id="fn3">Bertelsmann-Stiftung, Studie zur Wechseldynamik in Engpassberufen, 2025</li>
-          <li id="fn4">Gallup Index, 2025</li>
-          <li id="fn5">Benjamin Mikfeld, 2026: Ein neues politisches Modell</li>
-          <li id="fn6">Hans-Böckler-Stiftung: Mehr Freizeit wagen, Böckler Impuls 2022</li>
+          <li id="fn3"><a href="https://www.bertelsmann-stiftung.de/de/themen/aktuelle-meldungen/2025/pflege-handwerk-it-weil-beschaeftigte-sich-abwenden-verschaerft-sich-der-fachkraeftemangel" target="_blank" rel="noopener">Bertelsmann-Stiftung, Studie zur Wechseldynamik in Engpassberufen, 2025</a></li>
+          <li id="fn4"><a href="https://www.gallup.com/de/472028/bericht-zum-engagement-index-deutschland.aspx" target="_blank" rel="noopener">Gallup Index, 2025</a></li>
+          <li id="fn5"><a href="https://benjamin-mikfeld.de/ein-neues-poliitsches-modell-1-ein-progressiver-republikanismus-als-antwort-auf-die-krisen-und-die-politischen-blockaden-unserer-zeit-und-als-anregung-fuer-neue-grundsaetze-der-sp/" target="_blank" rel="noopener">Benjamin Mikfeld, 2026: Ein neues politisches Modell</a></li>
+          <li id="fn6"><a href="https://www.boeckler.de/de/boeckler-impuls-mehr-freizeit-wagen-40459.htm" target="_blank" rel="noopener">Hans-Böckler-Stiftung: Mehr Freizeit wagen, Böckler Impuls 2022</a></li>
           <li id="fn7">Bertelsmann-Stiftung, Studie zur Wechseldynamik in Engpassberufen, 2025</li>
-          <li id="fn8">Arbeitnehmerkammer Bremen/Hans-Böckler-Stiftung: »Ich pflege wieder, wenn...«, 2022</li>
+          <li id="fn8"><a href="https://www.boeckler.de/pdf/pm_fofoe_2022_05_03_final.pdf" target="_blank" rel="noopener">Arbeitnehmerkammer Bremen/Hans-Böckler-Stiftung: »Ich pflege wieder, wenn...«, 2022</a></li>
           <li id="fn9">Universität Münster/Intraprenör, 45 Unternehmen, 100-80-100-Modell, 2024. 70 % machten weiter.</li>
           <li id="fn10">UK Four-Day Week Pilot, 61 Unternehmen, 2022. 92 % behielten das Modell, Fluktuation −57 %, Krankenstand −65 %.</li>
           <li id="fn11">86 % aller isländischen Beschäftigten haben heute Anspruch auf verkürzte Arbeitszeit.</li>
@@ -1332,7 +1340,7 @@
 
   <footer>
     <div class="footer-inner">
-      <p>© 2026 Leonard Wolf</p>
+      <p>2026 <a href="mailto:leonard.wolf@spd.de">Leonard Wolf</a></p>
       <p>Diskussionspapier &nbsp;·&nbsp; M083 Medienpraxis online</p>
     </div>
   </footer>
