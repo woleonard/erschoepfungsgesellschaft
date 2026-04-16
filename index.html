@@ -349,7 +349,7 @@
       font-size: 0.72rem;
       color: var(--ink-muted);
       line-height: 1.4;
-      margin-top: 0.4rem;
+      margin-top: 0.75rem;
       max-width: 22ch;
     }
 
@@ -851,6 +851,23 @@
     footer p { font-size: 0.75rem; color: rgba(255,255,255,0.3); }
 
     /* ================================================
+       LESE-FORTSCHRITTSBALKEN
+    ================================================ */
+    #progress-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      height: 3px;
+      width: 0%;
+      background: var(--red);
+      z-index: 199;
+      transition: width 0.08s linear;
+      opacity: 0;
+      pointer-events: none;
+    }
+    #progress-bar.visible { opacity: 1; }
+
+    /* ================================================
        FADE IN
     ================================================ */
     .fi {
@@ -893,7 +910,7 @@
     </div>
   </nav>
 
-  <!-- OVERLAY -->
+  <div id="progress-bar"></div>
   <div id="chapter-overlay" role="dialog" aria-modal="true" aria-label="Kapitelnavigation">
     <div class="overlay-backdrop" id="overlay-backdrop"></div>
     <div class="overlay-drawer">
@@ -1313,6 +1330,16 @@
     const closeB = document.getElementById('overlay-close');
     const backd  = document.getElementById('overlay-backdrop');
     const navLinks = document.querySelectorAll('#nav-chapters a[data-section]');
+    const progressBar = document.getElementById('progress-bar');
+
+    // Fortschrittsbalken
+    window.addEventListener('scroll', () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+      progressBar.style.width = pct + '%';
+      progressBar.classList.toggle('visible', scrollTop > 10);
+    }, { passive: true });
 
     // Nav erscheint nach Hero
     new IntersectionObserver(([e]) => {
