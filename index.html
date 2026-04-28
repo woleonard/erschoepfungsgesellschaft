@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Die Erschöpfungsgesellschaft – Mehr als Maßnahmen</title>
+  <title>Die Zeitfrage – Mehr als Maßnahmen</title>
   <meta name="description" content="Warum die SPD ein Projekt braucht – und warum es Arbeitszeitverkürzung sein sollte. Ein Diskussionspapier von Leonard Wolf.">
 
   <!-- Open Graph (WhatsApp, LinkedIn, Facebook, Telegram) -->
   <meta property="og:type" content="article">
-  <meta property="og:title" content="Die Erschöpfungsgesellschaft">
+  <meta property="og:title" content="Die Zeitfrage">
   <meta property="og:description" content="Warum die SPD ein Projekt braucht – und warum es Arbeitszeitverkürzung sein sollte.">
   <meta property="og:url" content="https://woleonard.github.io/erschoepfungsgesellschaft">
   <meta property="og:locale" content="de_DE">
@@ -17,7 +17,7 @@
 
   <!-- Twitter / X Card -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Die Erschöpfungsgesellschaft">
+  <meta name="twitter:title" content="Die Zeitfrage">
   <meta name="twitter:description" content="Warum die SPD ein Projekt braucht – und warum es Arbeitszeitverkürzung sein sollte.">
   <meta name="twitter:image" content="https://raw.githubusercontent.com/woleonard/erschoepfungsgesellschaft/main/open_graph.png">
 
@@ -288,16 +288,22 @@
     /* "Die Erschöpfungsgesellschaft" — das ist jetzt die Identität der Seite */
     .hero-title-main {
       font-family: var(--font-serif);
-      font-size: clamp(2.5rem, 7.5vw, 6rem);
+      font-size: clamp(2.5rem, 5.5vw, 4.5rem);
       font-weight: 900;
-      line-height: 0.95;
+      line-height: 1.05;
       color: var(--ink);
       margin-bottom: 0.5rem;
       letter-spacing: -0.02em;
     }
     .hero-title-main em {
       font-style: italic;
+      color: var(--ink);
+    }
+    .hero-title-main em.hero-red {
       color: var(--red);
+    }
+    @media (max-width: 600px) {
+      .hero-br { display: none; }
     }
 
     .hero-title-sub {
@@ -507,6 +513,7 @@
       font-weight: 700;
       line-height: 1.2;
       color: var(--ink);
+      overflow-wrap: break-word;
     }
 
     .chapter-body { max-width: var(--prose-w); }
@@ -879,6 +886,7 @@
     #progress-bar {
       position: fixed;
       bottom: 0;
+      bottom: env(safe-area-inset-bottom, 0);
       left: 0;
       height: 3px;
       width: 0%;
@@ -911,7 +919,7 @@
   <!-- NAV -->
   <nav id="site-nav">
     <div class="nav-inner">
-      <a href="#hero" class="nav-brand">Die Erschöpfungs­gesellschaft</a>
+      <a href="#hero" class="nav-brand">Die Zeitfrage</a>
       <ul class="nav-chapters" id="nav-chapters">
         <li><a href="#lage" data-section="lage">Lage</a></li>
         <li><a href="#pragmatismus" data-section="pragmatismus">Pragmatismus</a></li>
@@ -971,8 +979,8 @@
       <div class="hero-body">
         <div>
           <p class="hero-eyebrow">Zur Lage der Sozialdemokratie</p>
-          <h1 class="hero-title-main">Die <em>Erschöpfungs­gesellschaft</em></h1>
-          <p class="hero-title-sub">Mehr als Maßnahmen: Warum die SPD ein Projekt braucht – und warum es Arbeitszeitverkürzung sein sollte</p>
+          <h1 class="hero-title-main"><em class="hero-red">Die Zeitfrage.</em> Warum die SPD zur Anti-Erschöpfungs-Partei werden muss</h1>
+          <p class="hero-title-sub">Die SPD braucht mehr als gute Maßnahmen, sie braucht ein Projekt. Arbeitszeitverkürzung ist ein Vorschlag.</p>
           <div class="hero-divider"></div>
           <div class="hero-stat-block">
             <span class="hero-stat-chip">ver.di-Befragung 2024</span>
@@ -1074,7 +1082,9 @@
             <p class="statement-text">Wir müssen als Gesellschaft mehr arbeiten. Diese Botschaft trifft auf die 66,9 Prozent, die sich regelmäßig leer fühlen. Auf eine Erschöpfungsgesellschaft, deren volkswirtschaftliche Kosten fast 120 Milliarden Euro jährlich erreichen.</p>
           </div>
 
-          <p class="fi">Der Lieferando-Fahrer nach der dritten Doppelschicht. Die Lagerarbeiterin, die auf ihre Reha wartet. Der Erzieher, der sich zwischen Vollzeit und Gesundheit entscheiden muss. Für diese Menschen klingt »Mehr arbeiten« nicht nach Aufbruch. Es klingt nach einer Partei, die nicht verstanden hat, was in ihrem Alltag passiert. Das wird auch nicht besser, wenn man ihnen einredet, dass sie schon bereit wären »Opfer zu bringen«. Sind diese Menschen wirklich. Das tun sie bereits, jeden Tag. Ausgerechnet von einer Partei, die selbst gerade nicht nach Verzicht und Aufbruch aussieht, erklärt zu bekommen, dass man dazu bereit sein soll: Das kommt nicht an. Aus gutem Grund.</p>
+          <p class="fi">Der Lieferando-Fahrer nach der dritten Doppelschicht. Die Lagerarbeiterin, die auf ihre Reha wartet. Der Erzieher, der sich zwischen Vollzeit und Gesundheit entscheiden muss. Für diese Menschen klingt »Mehr arbeiten« nicht nach Aufbruch. Es klingt nach einer Partei, die nicht verstanden hat, was in ihrem Alltag passiert. Das wird auch nicht besser, wenn man ihnen einredet, dass sie schon bereit wären »Opfer zu bringen«. Sind diese Menschen wirklich. Das tun sie bereits, jeden Tag. Deswegen widersprechen sie der Forderung auch so vehement.<a href="#fn6" class="footnote-ref">6</a></p>
+
+          <p class="fi">Ausgerechnet von einer Partei, die selbst gerade nicht nach Verzicht und Aufbruch aussieht, erklärt zu bekommen, dass man dazu bereit sein soll: Das kommt nicht an. Aus gutem Grund.</p>
 
           <div class="statement fi">
             <div class="statement-rule"></div>
@@ -1132,7 +1142,7 @@
 
           <p class="fi">Die Antwort: Die Menschen wollen nicht wirtschaftlichen Aufschwung im Sinne eines höheren BIP. Sie wollen, dass etwas bei ihnen ankommt. Und »ankommen« kann mehr Geld bedeuten. Aber es kann genauso bedeuten: weniger Erschöpfung, mehr Zeit, nicht mehr das Gefühl, am Limit zu laufen. Die ver.di-Befragung ist dafür der stärkste Beleg: 260.000 Menschen sagen nicht nur »mehr Geld«, sie sagen »ich bin leer, ich brauche Zeit«. Die Forderung nach dem »Meine-Zeit-Konto«, bei dem Beschäftigte selbst wählen, ob Gehaltserhöhungen in Geld oder Freizeit fließen, kam nicht aus einer akademischen Debatte. Sie kam aus dem Alltag von Krankenpflegern, Straßenreinigern und Erzieherinnen.</p>
 
-          <p class="fi">Die Hans-Böckler-Stiftung hat das historisch eingeordnet: Zwischen 1950 und 1980, als Produktivitätsgewinne noch fair verteilt wurden, entschieden sich die Menschen freiwillig für mehr Freizeit statt mehr Konsum.<a href="#fn6" class="footnote-ref">6</a> Seit den 1980ern stieg die Produktivität weiter, aber die Gewinne landeten beim Kapital. Mehr Aufgaben pro Stelle, dünnere Personaldecken, höhere Verdichtung. Das Ergebnis ist die Erschöpfungsgesellschaft, in der wir heute leben.</p>
+          <p class="fi">Die Hans-Böckler-Stiftung hat das historisch eingeordnet: Zwischen 1950 und 1980, als Produktivitätsgewinne noch fair verteilt wurden, entschieden sich die Menschen freiwillig für mehr Freizeit statt mehr Konsum.<a href="#fn7" class="footnote-ref">7</a> Seit den 1980ern stieg die Produktivität weiter, aber die Gewinne landeten beim Kapital. Mehr Aufgaben pro Stelle, dünnere Personaldecken, höhere Verdichtung. Das Ergebnis ist die Erschöpfungsgesellschaft, in der wir heute leben.</p>
 
           <p class="fi">Wenn die SPD über Wohlstand spricht, muss sie sich fragen, was sie meint. Ein steigendes BIP, von dem niemand etwas spürt? Oder einen Wohlstand, der im Leben der Menschen ankommt?</p>
 
@@ -1150,7 +1160,7 @@
       <div class="chapter-inner">
         <div class="chapter-sidebar fi">
           <p class="chapter-num">V</p>
-          <h2 class="chapter-heading">Warum Arbeitszeitverkürzung?</h2>
+          <h2 class="chapter-heading">Warum Arbeitszeit&shy;verkürzung?</h2>
         </div>
         <div class="chapter-body">
           <p class="fi">Warum ausgerechnet dieses Thema? Weil es drei Bedingungen gleichzeitig erfüllt.</p>
@@ -1228,7 +1238,7 @@
             <div class="split-col">
               <p class="split-label">Die Care-Welt</p>
               <h3 class="split-heading">Erschöpfung ohne<br>algorithmischen Ausweg</h3>
-              <p>In der anderen wäscht kein Algorithmus einen Patienten und erzieht keine Software ein Kind. Jährlich wandern 24.000 Fachkräfte netto aus Engpassberufen ab.<a href="#fn7" class="footnote-ref" style="color:var(--red)">7</a> Dabei stünden 300.000 Pflegekräfte zur Verfügung, wenn die Arbeitsbedingungen stimmten – vor allem bei der Arbeitszeit.<a href="#fn8" class="footnote-ref" style="color:var(--red)">8</a></p>
+              <p>In der anderen wäscht kein Algorithmus einen Patienten und erzieht keine Software ein Kind. Jährlich wandern 24.000 Fachkräfte netto aus Engpassberufen ab.<a href="#fn8" class="footnote-ref" style="color:var(--red)">8</a> Dabei stünden 300.000 Pflegekräfte zur Verfügung, wenn die Arbeitsbedingungen stimmten – vor allem bei der Arbeitszeit.<a href="#fn9" class="footnote-ref" style="color:var(--red)">9</a></p>
             </div>
           </div>
 
@@ -1240,7 +1250,7 @@
             <p class="statement-text">Arbeitszeitverkürzung verbindet beide Welten. Wo KI die Produktivität steigert, steht Beschäftigten ihr Anteil am Fortschritt zu. Wo Arbeit an und mit Menschen geleistet wird, sind kürzere Arbeitszeiten die Voraussetzung dafür, dass Menschen diese Arbeit überhaupt noch tun.</p>
           </div>
 
-          <p class="fi">Pilotprojekte in Deutschland<a href="#fn9" class="footnote-ref">9</a>, Großbritannien<a href="#fn10" class="footnote-ref">10</a> und Island<a href="#fn11" class="footnote-ref">11</a> zeigen: Kürzere Arbeitszeiten bei vollem Lohn sind mit stabilen Umsätzen vereinbar, senken Krankenstand und steigern Lebenszufriedenheit. Was fehlt, ist die parteipolitische Kraft, die das Thema zum gesellschaftlichen Projekt macht.</p>
+          <p class="fi">Pilotprojekte in Deutschland<a href="#fn10" class="footnote-ref">10</a>, Großbritannien<a href="#fn11" class="footnote-ref">11</a> und Island<a href="#fn12" class="footnote-ref">12</a> zeigen: Kürzere Arbeitszeiten bei vollem Lohn sind mit stabilen Umsätzen vereinbar, senken Krankenstand und steigern Lebenszufriedenheit. Was fehlt, ist die parteipolitische Kraft, die das Thema zum gesellschaftlichen Projekt macht.</p>
         </div>
       </div>
     </section>
@@ -1327,12 +1337,13 @@
           <li id="fn3"><a href="https://www.bertelsmann-stiftung.de/de/themen/aktuelle-meldungen/2025/pflege-handwerk-it-weil-beschaeftigte-sich-abwenden-verschaerft-sich-der-fachkraeftemangel" target="_blank" rel="noopener">Bertelsmann-Stiftung, Studie zur Wechseldynamik in Engpassberufen, 2025</a></li>
           <li id="fn4"><a href="https://www.gallup.com/de/472028/bericht-zum-engagement-index-deutschland.aspx" target="_blank" rel="noopener">Gallup Index, 2025</a></li>
           <li id="fn5"><a href="https://benjamin-mikfeld.de/ein-neues-poliitsches-modell-1-ein-progressiver-republikanismus-als-antwort-auf-die-krisen-und-die-politischen-blockaden-unserer-zeit-und-als-anregung-fuer-neue-grundsaetze-der-sp/" target="_blank" rel="noopener">Benjamin Mikfeld, 2026: Ein neues politisches Modell</a></li>
-          <li id="fn6"><a href="https://www.boeckler.de/de/boeckler-impuls-mehr-freizeit-wagen-40459.htm" target="_blank" rel="noopener">Hans-Böckler-Stiftung: Mehr Freizeit wagen, Böckler Impuls 2022</a></li>
-          <li id="fn7">Bertelsmann-Stiftung, Studie zur Wechseldynamik in Engpassberufen, 2025</li>
-          <li id="fn8"><a href="https://www.boeckler.de/pdf/pm_fofoe_2022_05_03_final.pdf" target="_blank" rel="noopener">Arbeitnehmerkammer Bremen/Hans-Böckler-Stiftung: »Ich pflege wieder, wenn...«, 2022</a></li>
-          <li id="fn9">Universität Münster/Intraprenör, 45 Unternehmen, 100-80-100-Modell, 2024. 70 % machten weiter.</li>
-          <li id="fn10">UK Four-Day Week Pilot, 61 Unternehmen, 2022. 92 % behielten das Modell, Fluktuation −57 %, Krankenstand −65 %.</li>
-          <li id="fn11">86 % aller isländischen Beschäftigten haben heute Anspruch auf verkürzte Arbeitszeit.</li>
+          <li id="fn6"><a href="https://www.tagesschau.de/inland/deutschlandtrend/grafiken/ard-umfrage-deine-meinung-zaehlt-100.pdf" target="_blank" rel="noopener">ARD/WDR, April 2026: 63 % widersprechen der Aussage: »Wir müssen endlich wieder mehr arbeiten, um unseren Wohlstand in Deutschland zu sichern.«</a></li>
+          <li id="fn7"><a href="https://www.boeckler.de/de/boeckler-impuls-mehr-freizeit-wagen-40459.htm" target="_blank" rel="noopener">Hans-Böckler-Stiftung: Mehr Freizeit wagen, Böckler Impuls 2022</a></li>
+          <li id="fn8">Bertelsmann-Stiftung, Studie zur Wechseldynamik in Engpassberufen, 2025</li>
+          <li id="fn9"><a href="https://www.boeckler.de/pdf/pm_fofoe_2022_05_03_final.pdf" target="_blank" rel="noopener">Arbeitnehmerkammer Bremen/Hans-Böckler-Stiftung: »Ich pflege wieder, wenn...«, 2022</a></li>
+          <li id="fn10">Universität Münster/Intraprenör, 45 Unternehmen, 100-80-100-Modell, 2024. 70 % machten weiter.</li>
+          <li id="fn11">UK Four-Day Week Pilot, 61 Unternehmen, 2022. 92 % behielten das Modell, Fluktuation −57 %, Krankenstand −65 %.</li>
+          <li id="fn12">86 % aller isländischen Beschäftigten haben heute Anspruch auf verkürzte Arbeitszeit.</li>
         </ol>
       </div>
     </section>
